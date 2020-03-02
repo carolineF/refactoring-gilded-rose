@@ -11,55 +11,67 @@ class GildedRose {
     }
 
     public void update_quality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].getName().equals(AGED_BRIE)
-                    && !items[i].getName().equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                if (items[i].getQuality() > 0) {
-                    if (!items[i].getName().equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                        items[i].setQuality(items[i].getQuality() - 1);
-                    }
-                }
-            } else {
-                if (items[i].getQuality() < 50) {
-                    items[i].setQuality(items[i].getQuality() + 1);
+        for (Item item : items) {
+            switch (item.getName()) {
+                case AGED_BRIE:
+                    updateQualityOfAgedBrie(item);
+                    break;
+                case SULFURAS_HAND_OF_RAGNAROS:
+                    break;
+                case BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT:
+                    updateQualityOfBackstagePassesToATAFKAL80ETCConcert(item);
+                    break;
+                default:
+                    updateQualityOfCommon(item);
+                    break;
+            }
+        }
+    }
 
-                    if (items[i].getName().equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                        if (items[i].getSellIn() < 11) {
-                            if (items[i].getQuality() < 50) {
-                                items[i].setQuality(items[i].getQuality() + 1);
-                            }
-                        }
+    public void updateQualityOfCommon(Item item) {
+        if (item.getQuality() > 0) {
+            item.setQuality(item.getQuality() - 1);
+        }
+        item.setSellIn(item.getSellIn() - 1);
+        if (item.getSellIn() < 0) {
+            if (item.getQuality() > 0) {
+                item.setQuality(item.getQuality() - 1);
+            }
+        }
+    }
 
-                        if (items[i].getSellIn() < 6) {
-                            if (items[i].getQuality() < 50) {
-                                items[i].setQuality(items[i].getQuality() + 1);
-                            }
-                        }
-                    }
+    public void updateQualityOfAgedBrie(Item item) {
+        if (item.getQuality() < 50) {
+            item.setQuality(item.getQuality() + 1);
+        }
+        item.setSellIn(item.getSellIn() - 1);
+        if (item.getSellIn() < 0) {
+            if (item.getQuality() < 50) {
+                item.setQuality(item.getQuality() + 1);
+            }
+        }
+    }
+
+    public void updateQualityOfBackstagePassesToATAFKAL80ETCConcert(Item item) {
+        if (item.getQuality() < 50) {
+            item.setQuality(item.getQuality() + 1);
+
+            if (item.getSellIn() < 11) {
+                if (item.getQuality() < 50) {
+                    item.setQuality(item.getQuality() + 1);
                 }
             }
 
-            if (!items[i].getName().equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                items[i].setSellIn(items[i].getSellIn() - 1);
-            }
-
-            if (items[i].getSellIn() < 0) {
-                if (!items[i].getName().equals(AGED_BRIE)) {
-                    if (!items[i].getName().equals(BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT)) {
-                        if (items[i].getQuality() > 0) {
-                            if (!items[i].getName().equals(SULFURAS_HAND_OF_RAGNAROS)) {
-                                items[i].setQuality(items[i].getQuality() - 1);
-                            }
-                        }
-                    } else {
-                        items[i].setQuality(0);
-                    }
-                } else {
-                    if (items[i].getQuality() < 50) {
-                        items[i].setQuality(items[i].getQuality() + 1);
-                    }
+            if (item.getSellIn() < 6) {
+                if (item.getQuality() < 50) {
+                    item.setQuality(item.getQuality() + 1);
                 }
             }
+        }
+
+        item.setSellIn(item.getSellIn() - 1);
+        if (item.getSellIn() < 0) {
+            item.setQuality(0);
         }
     }
 }
