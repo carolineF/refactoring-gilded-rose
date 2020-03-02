@@ -4,11 +4,11 @@ class GildedRose {
     public static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
-    public static final int FIFTY = 50;
-    public static final int ZERO = 0;
-    public static final int ONE = 1;
-    public static final int SIX = 6;
-    public static final int ELEVEN = 11;
+    public static final int MAX_QUALITY = 50;
+    public static final int MIN_QUALITY = 0;
+    public static final int INCREMENT = 1;
+    public static final int MIN_SELL_IN = 6;
+    public static final int MAX_SELL_IN = 11;
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -37,25 +37,25 @@ class GildedRose {
     }
 
     public void updateSellInToMinusOne(Item item) {
-        item.setSellIn(item.getSellIn() - ONE);
+        item.setSellIn(item.getSellIn() - INCREMENT);
     }
 
     public void minusOneWhenQualityGreaterThanZero(Item item) {
-        if (item.getQuality() > ZERO) {
-            item.setQuality(item.getQuality() - ONE);
+        if (item.getQuality() > MIN_QUALITY) {
+            item.setQuality(item.getQuality() - INCREMENT);
         }
     }
 
     public void plusOneWhenQualityLessThanFifty(Item item) {
-        if (item.getQuality() < FIFTY) {
-            item.setQuality(item.getQuality() + ONE);
+        if (item.getQuality() < MAX_QUALITY) {
+            item.setQuality(item.getQuality() + INCREMENT);
         }
     }
 
     public void updateQualityOfCommon(Item item) {
         minusOneWhenQualityGreaterThanZero(item);
 
-        if (item.getSellIn() < ZERO) {
+        if (item.getSellIn() < MIN_QUALITY) {
             minusOneWhenQualityGreaterThanZero(item);
         }
     }
@@ -63,22 +63,22 @@ class GildedRose {
     public void updateQualityOfAgedBrie(Item item) {
         plusOneWhenQualityLessThanFifty(item);
 
-        if (item.getSellIn() < ZERO) {
+        if (item.getSellIn() < MIN_QUALITY) {
             plusOneWhenQualityLessThanFifty(item);
         }
     }
 
     public void updateQualityOfBackstagePassesToATAFKAL80ETCConcert(Item item) {
-        if (item.getQuality() < FIFTY) {
-            item.setQuality(item.getQuality() + ONE);
+        if (item.getQuality() < MAX_QUALITY) {
+            item.setQuality(item.getQuality() + INCREMENT);
 
-            if (item.getSellIn() < SIX || item.getSellIn() < ELEVEN) {
+            if (item.getSellIn() < MIN_SELL_IN || item.getSellIn() < MAX_SELL_IN) {
                 plusOneWhenQualityLessThanFifty(item);
             }
         }
 
-        if (item.getSellIn() < ZERO) {
-            item.setQuality(ZERO);
+        if (item.getSellIn() < MIN_QUALITY) {
+            item.setQuality(MIN_QUALITY);
         }
     }
 }
