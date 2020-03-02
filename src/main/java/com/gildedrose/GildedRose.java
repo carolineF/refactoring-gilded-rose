@@ -4,6 +4,11 @@ class GildedRose {
     public static final String BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT = "Backstage passes to a TAFKAL80ETC concert";
     public static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final String AGED_BRIE = "Aged Brie";
+    public static final int FIFTY = 50;
+    public static final int ZERO = 0;
+    public static final int ONE = 1;
+    public static final int SIX = 6;
+    public static final int ELEVEN = 11;
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -32,25 +37,25 @@ class GildedRose {
     }
 
     public void updateSellInToMinusOne(Item item) {
-        item.setSellIn(item.getSellIn() - 1);
+        item.setSellIn(item.getSellIn() - ONE);
     }
 
     public void minusOneWhenQualityGreaterThanZero(Item item) {
-        if (item.getQuality() > 0) {
-            item.setQuality(item.getQuality() - 1);
+        if (item.getQuality() > ZERO) {
+            item.setQuality(item.getQuality() - ONE);
         }
     }
 
     public void plusOneWhenQualityLessThanFifty(Item item) {
-        if (item.getQuality() < 50) {
-            item.setQuality(item.getQuality() + 1);
+        if (item.getQuality() < FIFTY) {
+            item.setQuality(item.getQuality() + ONE);
         }
     }
 
     public void updateQualityOfCommon(Item item) {
         minusOneWhenQualityGreaterThanZero(item);
 
-        if (item.getSellIn() < 0) {
+        if (item.getSellIn() < ZERO) {
             minusOneWhenQualityGreaterThanZero(item);
         }
     }
@@ -58,22 +63,22 @@ class GildedRose {
     public void updateQualityOfAgedBrie(Item item) {
         plusOneWhenQualityLessThanFifty(item);
 
-        if (item.getSellIn() < 0) {
+        if (item.getSellIn() < ZERO) {
             plusOneWhenQualityLessThanFifty(item);
         }
     }
 
     public void updateQualityOfBackstagePassesToATAFKAL80ETCConcert(Item item) {
-        if (item.getQuality() < 50) {
-            item.setQuality(item.getQuality() + 1);
+        if (item.getQuality() < FIFTY) {
+            item.setQuality(item.getQuality() + ONE);
 
-            if (item.getSellIn() < 6 || item.getSellIn() < 11) {
+            if (item.getSellIn() < SIX || item.getSellIn() < ELEVEN) {
                 plusOneWhenQualityLessThanFifty(item);
             }
         }
 
-        if (item.getSellIn() < 0) {
-            item.setQuality(0);
+        if (item.getSellIn() < ZERO) {
+            item.setQuality(ZERO);
         }
     }
 }
