@@ -15,24 +15,30 @@ class GildedRose {
             switch (item.getName()) {
                 case AGED_BRIE:
                     updateQualityOfAgedBrie(item);
+                    updateSellInToMinusOne(item);
                     break;
                 case SULFURAS_HAND_OF_RAGNAROS:
                     break;
                 case BACKSTAGE_PASSES_TO_A_TAFKAL80ETC_CONCERT:
                     updateQualityOfBackstagePassesToATAFKAL80ETCConcert(item);
+                    updateSellInToMinusOne(item);
                     break;
                 default:
                     updateQualityOfCommon(item);
+                    updateSellInToMinusOne(item);
                     break;
             }
         }
+    }
+
+    public void updateSellInToMinusOne(Item item) {
+        item.setSellIn(item.getSellIn() - 1);
     }
 
     public void updateQualityOfCommon(Item item) {
         if (item.getQuality() > 0) {
             item.setQuality(item.getQuality() - 1);
         }
-        item.setSellIn(item.getSellIn() - 1);
         if (item.getSellIn() < 0) {
             if (item.getQuality() > 0) {
                 item.setQuality(item.getQuality() - 1);
@@ -44,7 +50,6 @@ class GildedRose {
         if (item.getQuality() < 50) {
             item.setQuality(item.getQuality() + 1);
         }
-        item.setSellIn(item.getSellIn() - 1);
         if (item.getSellIn() < 0) {
             if (item.getQuality() < 50) {
                 item.setQuality(item.getQuality() + 1);
@@ -69,7 +74,6 @@ class GildedRose {
             }
         }
 
-        item.setSellIn(item.getSellIn() - 1);
         if (item.getSellIn() < 0) {
             item.setQuality(0);
         }
